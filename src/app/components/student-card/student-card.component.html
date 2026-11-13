@@ -1,0 +1,48 @@
+<div
+  class="student-card"
+  [appHighlight]="student.status === 'Active'"
+  [class.active-card]="student.status === 'Active'"
+  [class.inactive-card]="student.status === 'Inactive'"
+>
+  <div class="card-header">
+    <div class="student-avatar">{{ student.name | capitalize | slice:0:1 }}</div>
+    <div class="header-details">
+      <!-- TASK 2: Custom Pipe 'capitalize' used on student name -->
+      <h3 class="student-name">{{ student.name | capitalize }}</h3>
+      <span class="student-id">Student ID: #{{ student.id }}</span>
+    </div>
+    <span
+      class="status-badge"
+      [class.badge-active]="student.status === 'Active'"
+      [class.badge-inactive]="student.status === 'Inactive'"
+    >
+      {{ student.status }}
+    </span>
+  </div>
+
+  <div class="card-body">
+    <div class="info-row">
+      <span class="info-label">📚 Course:</span>
+      <span class="info-value course-badge">{{ student.course }}</span>
+    </div>
+
+    <div class="info-row">
+      <span class="info-label">💰 Tuition Fees:</span>
+      <!-- BONUS TASK 3: Custom currency pipe to format student fees -->
+      <span class="info-value fee-value">{{ student.fees | currencyFormat:'₹' }}</span>
+    </div>
+  </div>
+
+  <div class="card-footer">
+    <!-- BONUS TASK 4: Delete button for each student -->
+    <button
+      type="button"
+      class="btn-delete"
+      (click)="onDelete()"
+      title="Delete student"
+    >
+      🗑️ Remove Student
+    </button>
+  </div>
+</div>
+

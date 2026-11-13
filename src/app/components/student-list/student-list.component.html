@@ -1,0 +1,86 @@
+<div class="list-wrapper">
+  <!-- BONUS TASK 5: Display total number of students & summary stats -->
+  <div class="stats-overview">
+    <div class="stat-card stat-total">
+      <span class="stat-icon">🎓</span>
+      <div class="stat-info">
+        <span class="stat-title">Total Enrolled</span>
+        <strong class="stat-number">{{ totalStudentsCount }}</strong>
+      </div>
+    </div>
+    <div class="stat-card stat-active">
+      <span class="stat-icon">✅</span>
+      <div class="stat-info">
+        <span class="stat-title">Active Students</span>
+        <strong class="stat-number">{{ activeStudentsCount }}</strong>
+      </div>
+    </div>
+    <div class="stat-card stat-inactive">
+      <span class="stat-icon">⏸️</span>
+      <div class="stat-info">
+        <span class="stat-title">Inactive Students</span>
+        <strong class="stat-number">{{ inactiveStudentsCount }}</strong>
+      </div>
+    </div>
+  </div>
+
+  <!-- Filter & Search Bar Controls (Bonus Tasks 1 & 2) -->
+  <div class="controls-bar">
+    <!-- BONUS TASK 1: Search box to search students by name -->
+    <div class="search-box">
+      <span class="search-icon">🔍</span>
+      <input
+        type="text"
+        [(ngModel)]="searchTerm"
+        placeholder="Search students by name (e.g. A, B)..."
+        class="search-input"
+      />
+      <button
+        *ngIf="searchTerm"
+        (click)="searchTerm = ''"
+        class="clear-btn"
+        title="Clear search"
+      >
+        ✕
+      </button>
+    </div>
+
+    <!-- BONUS TASK 2: Dropdown to filter students by course -->
+    <div class="filter-box">
+      <label for="courseFilter" class="filter-label">Filter by Course:</label>
+      <select
+        id="courseFilter"
+        [(ngModel)]="selectedCourse"
+        class="filter-select"
+      >
+        <option *ngFor="let c of availableCourses" [value]="c">
+          {{ c === 'All' ? 'All Courses' : c }}
+        </option>
+      </select>
+    </div>
+  </div>
+
+  <!-- Information Banner -->
+  <div class="filter-summary">
+    <span>Showing <strong>{{ filteredStudents.length }}</strong> of <strong>{{ totalStudentsCount }}</strong> students</span>
+    <span class="directive-hint">💡 Hover over active students to test the <code>appHighlight</code> directive (turns yellow).</span>
+  </div>
+
+  <!-- Student Cards Grid (Task 5: Use StudentCardComponent inside StudentListComponent) -->
+  <div class="cards-grid" *ngIf="filteredStudents.length > 0; else noStudentsTemplate">
+    <app-student-card
+      *ngFor="let s of filteredStudents; trackBy: trackByStudentId"
+      [student]="s"
+      (deleteStudent)="onDeleteStudent($event)"
+    ></app-student-card>
+  </div>
+
+  <ng-template #noStudentsTemplate>
+    <div class="empty-state">
+      <span class="empty-icon">📂</span>
+      <h3>No Students Found</h3>
+      <p>Try adjusting your search query or course filter.</p>
+    </div>
+  </ng-template>
+</div>
+
